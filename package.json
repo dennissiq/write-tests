@@ -1,0 +1,23 @@
+{
+  "name": "write-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dennis Siqueira",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --exec babel-node index.js",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@types/jest": "^27.5.0",
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
