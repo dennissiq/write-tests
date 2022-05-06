@@ -11,10 +11,16 @@ export default class Cart {
   items = [];
 
   getTotal() {
-    return this.items.reduce(
-      (acc, item) => acc.add(Money({ amount: item.product.price * item.quantity })),
-      Money({ amount: 0 })
-    );
+    return this.items.reduce((acc, item) => {
+      const amount = Money({ amount: item.product.price * item.quantity });
+      let discount = Money({ amount: 0 });
+
+      if (item.condition && item.condition.percentage && item.quantity > item.condition.minimum) {
+        discount = amount.percentage(item.condition.percentage);
+      }
+
+      return acc.add(amount).subtract(discount);
+    }, Money({ amount: 0 }));
   }
 
   add(item) {

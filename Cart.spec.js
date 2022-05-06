@@ -1,12 +1,12 @@
-import Cart from "./Cart";
-describe("Cart", () => {
+import Cart from './Cart';
+describe('Cart', () => {
   let cart;
   let product = {
-    title: "Product 1",
+    title: 'Product 1',
     price: 35388,
   };
   let otherProduct = {
-    title: "Product 2",
+    title: 'Product 2',
     price: 5533,
   };
 
@@ -14,13 +14,13 @@ describe("Cart", () => {
     cart = new Cart();
   });
 
-  describe("getTotal()", () => {
-    it("should return 0 when getTotal() is executed in a newly created", () => {
+  describe('getTotal()', () => {
+    it('should return 0 when getTotal() is executed in a newly created', () => {
       const cart = new Cart();
       expect(cart.getTotal().getAmount()).toEqual(0);
     });
 
-    it("should multiply quantity and price and receive when the total amount", () => {
+    it('should multiply quantity and price and receive when the total amount', () => {
       const item = {
         product,
         quantity: 2, // 70776
@@ -31,14 +31,14 @@ describe("Cart", () => {
       expect(cart.getTotal().getAmount()).toEqual(70776);
     });
 
-    it("should ensure no more than on product exists at a time", () => {
+    it('should ensure no more than on product exists at a time', () => {
       cart.add({ product, quantity: 2 });
       cart.add({ product, quantity: 1 });
 
       expect(cart.getTotal().getAmount()).toEqual(35388);
     });
 
-    it("should update total when a product gets included and then removed", () => {
+    it('should update total when a product gets included and then removed', () => {
       cart.add({ product, quantity: 2 });
       cart.add({ product: otherProduct, quantity: 1 });
 
@@ -48,8 +48,8 @@ describe("Cart", () => {
     });
   });
 
-  describe("checkout()", () => {
-    it("should return an object with the total and the list of items", () => {
+  describe('checkout()', () => {
+    it('should return an object with the total and the list of items', () => {
       cart.add({ product, quantity: 3 });
       cart.add({ product: otherProduct, quantity: 15 });
 
@@ -75,7 +75,7 @@ describe("Cart", () => {
         }
       `);
     });
-    it("should return an object with the total and the list of items when summary() is called", () => {
+    it('should return an object with the total and the list of items when summary() is called', () => {
       cart.add({ product, quantity: 3 });
       cart.add({ product: otherProduct, quantity: 15 });
 
@@ -103,11 +103,24 @@ describe("Cart", () => {
 
       expect(cart.getTotal().getAmount()).toBeGreaterThan(0);
     });
-    it("should reset the cart when checkout() is called", () => {
+    it('should reset the cart when checkout() is called', () => {
       cart.add({ product, quantity: 3 });
 
       cart.checkout();
       expect(cart.getTotal().getAmount()).toEqual(0);
+    });
+  });
+
+  describe('special conditions', () => {
+    it('should apply percentage discount when above minimum is passed', () => {
+      const condition = {
+        percentage: 30,
+        minimum: 2,
+      };
+
+      cart.add({ product, condition, quantity: 3 });
+
+      expect(cart.getTotal().getAmount()).toEqual(74315);
     });
   });
 });
